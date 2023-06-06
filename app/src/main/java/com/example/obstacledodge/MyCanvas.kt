@@ -26,8 +26,9 @@ import kotlin.properties.Delegates
 import kotlin.random.Random
 
 //size of the screen==w=2200,h=1080
-class MyCanvas(context: Context, obsNo: Int) : View(context) {
+class MyCanvas(context: Context, obsNo: Int, hack:Boolean=false) : View(context) {
     private var gamerun: Boolean = true
+    private val hackerMode=hack
     private var EndX by Delegates.notNull<Float>()
     private var EndY by Delegates.notNull<Float>()
     private val ground = 50f
@@ -206,6 +207,8 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
 
 
     override fun onDraw(canvas: Canvas?) {
+        Log.d("hacker", "hackermode=$hackerMode: ")
+
         Log.d("gamerun", "gamerun=$gamerun ")
 
         Log.d("On draw call", "x=$EndX,y=$EndY ")
@@ -464,7 +467,7 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
                 collisionOccur[i]=true
                 Log.d("small_collision detect", "collided ${collisionOccur[i]}  $i ")
             }
-            else if(playerX+playerRadius>=smallObsRect.right&&!smallObstacleDodged[i]) {
+            else if(playerX+playerRadius>=smallObsRect.right&&!smallObstacleDodged[i] && !collisionOccur[i]) {
                 smallScore += 50
                 smallObstacleDodged[i]=true
             }
