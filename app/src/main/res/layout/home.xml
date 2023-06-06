@@ -26,7 +26,7 @@
         android:layout_width="130dp"
         android:layout_height="70dp"
         android:layout_marginBottom="40dp"
-        android:background="@color/purple_200"
+        android:background="@drawable/game_button"
         android:text="PLAY"
         android:textSize="34sp"
         app:layout_constraintBottom_toBottomOf="parent"

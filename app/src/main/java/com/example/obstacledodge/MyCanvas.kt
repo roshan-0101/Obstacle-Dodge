@@ -415,10 +415,12 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
         approachAnimator.start()
     }
 
-    var collisionOccur =  MutableList(smallObstacleRect.size) { false }
+    private var collisionOccur =  MutableList(smallObstacleRect.size) { false }
+    private var bigObsDodged= MutableList(obstacleRect.size) { false }
+    private var smallObstacleDodged= MutableList(smallObstacleRect.size){ false }
 
     private fun update() {
-        for (obsRect in obstacleRect) {
+        for ((i,obsRect) in obstacleRect.withIndex()) {
             Log.d(
                 "Update_pause",
                 "$pausestate"
@@ -434,7 +436,10 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
                 // Show game over dialog or perform any other game over logic
                 showGameOverDialog()
             }
-            if(playerX==obsRect.left)bigScore+=100
+            if(playerX+playerRadius>=obsRect.right&&!bigObsDodged[i]) {
+                bigScore += 100
+                bigObsDodged[i]=true
+            }
 
             invalidate()
         }
@@ -459,7 +464,10 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
                 collisionOccur[i]=true
                 Log.d("small_collision detect", "collided ${collisionOccur[i]}  $i ")
             }
-            if(playerX==smallObsRect.left)smallScore+=50
+            else if(playerX+playerRadius>=smallObsRect.right&&!smallObstacleDodged[i]) {
+                smallScore += 50
+                smallObstacleDodged[i]=true
+            }
 
         invalidate()
         }
