@@ -434,10 +434,11 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
                 // Show game over dialog or perform any other game over logic
                 showGameOverDialog()
             }
+            if(playerX==obsRect.left)bigScore+=100
 
             invalidate()
         }
-        scoreManager()
+        //scoreManager()
         chaserJumpAutomator()
 
 
@@ -458,6 +459,7 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
                 collisionOccur[i]=true
                 Log.d("small_collision detect", "collided ${collisionOccur[i]}  $i ")
             }
+            if(playerX==smallObsRect.left)smallScore+=50
 
         invalidate()
         }
@@ -507,6 +509,9 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
         val dialog = extrafun.dialogBuilder(R.layout.gameover, context)
         val home: Button = dialog.findViewById(R.id.home)
         val score: TextView = dialog.findViewById(R.id.endDialog)
+        totalScore=smallScore+bigScore
+        Log.d("totalScore", "total score=$totalScore: ")
+        datastore(totalScore)
         score.text ="Score=$totalScore"
         home.setOnClickListener {
             dialog.dismiss()
@@ -530,18 +535,18 @@ class MyCanvas(context: Context, obsNo: Int) : View(context) {
     }
     private fun scoreManager(){
         for (i in obstacleRect){
-            if(i.left-playerX==0f)bigScore+=100
+            if(i.left-playerX==0f) {
+                bigScore += 100
+                Log.d("ScoreBigObs", "big obstacle dodged bugScore=$bigScore: ")
+            }
+
         }
         for (i in smallObstacleRect){
-            if(i.left-playerX==0f)smallScore+=50
+            if(i.left-playerX==0f) {
+                smallScore += 50
+                Log.d("ScoreSmallObs", "small obstacle dodged smallscore=$smallScore: ")
+
+            }
         }
-        totalScore=smallScore+bigScore
-        if(!gamerun)datastore(totalScore)
     }
-
-
-
-
-
-
 }
