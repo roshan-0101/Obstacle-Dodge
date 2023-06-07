@@ -84,14 +84,6 @@ class MyCanvas(context: Context, obsNo: Int, hack:Boolean=false) : View(context)
     private lateinit var pause: RectF
     private var pausestate = false
 
-
-    //origin
-    private val origin = Paint().apply {
-        R.color.black.also { color = it }
-        style = Paint.Style.FILL
-        isAntiAlias = true
-    }
-
     //player
     private val playerimage = BitmapFactory.decodeResource(resources, R.drawable.player)
 
@@ -130,10 +122,9 @@ class MyCanvas(context: Context, obsNo: Int, hack:Boolean=false) : View(context)
 
     private var touchX = 0f
     private var touchY = 0f
-    //scores
-    private var smallScore=0
-    private var bigScore=0
-    private var totalScore = 0
+
+
+
 
     private fun obsArray(small: Int, big: Int): MutableList<Int> {
         var arr = mutableListOf<Int>()
@@ -153,6 +144,18 @@ class MyCanvas(context: Context, obsNo: Int, hack:Boolean=false) : View(context)
     }//0=small,1=big
 
     private var totalObsArrayPos = obsArray(smallObsNo, bigObsNo)
+
+    //scores
+
+    private var smallScore=0
+    private var bigScore=0
+    private var totalScore = 0
+    private val scoreCard = Paint().apply {
+        color=ResourcesCompat.getColor(resources, R.color.black,null)
+        style = Paint.Style.FILL
+        isAntiAlias = true
+        textSize=100f
+    }
 
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -261,9 +264,8 @@ class MyCanvas(context: Context, obsNo: Int, hack:Boolean=false) : View(context)
             }
             Log.d("obs render", "$ii ")
         }
-        //reference to origin
-        canvas?.drawCircle(0f, 0f, 20f, origin)
 
+        canvas?.drawText("Score   $totalScore",1400f,scoreCard.textSize+20f,scoreCard)
 
         canvas?.drawBitmap(winTape,null,winShape,null)
         if (gamerun ) {
