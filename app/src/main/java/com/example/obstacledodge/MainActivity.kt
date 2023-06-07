@@ -27,10 +27,6 @@ class MainActivity : Activity() {
 
         var play: Button = findViewById(R.id.playbutton)
         var settings: ImageButton=findViewById(R.id.settings)
-        var hacker:Switch=findViewById(R.id.hacker)
-        hacker.setOnCheckedChangeListener { _, isChecked ->
-            hackerMode = isChecked
-        }
         var scoreText:TextView=findViewById(R.id.highScore)
         val ObsSeek:SeekBar=findViewById(R.id.noofobs)
         scoreText.text="High Score=${loaddata()}"
